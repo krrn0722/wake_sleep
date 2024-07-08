@@ -18,21 +18,30 @@ i_num = 16 #16
 # 学習率 epsilon
 lr = 0.1
 
-w_r_ij = np.random.rand(i_num+1, j_num)
-w_r_jk = np.random.rand(j_num+1, k_num)
+# w_r_ij = np.random.rand(i_num+1, j_num)
+# w_r_jk = np.random.rand(j_num+1, k_num)
 
 
-w_g_kj = np.random.rand(k_num+1, j_num)
-w_g_ji = np.random.rand(j_num+1, i_num)
+# w_g_kj = np.random.rand(k_num+1, j_num)
+# w_g_ji = np.random.rand(j_num+1, i_num)
 
-w_g_single = np.random.rand(1, k_num)
+# w_g_single = np.random.rand(1, k_num)
+
+w_r_ij = np.zeros((i_num+1, j_num))
+w_r_jk = np.zeros((j_num+1, k_num))
+
+
+w_g_kj = np.zeros((k_num+1, j_num))
+w_g_ji = np.zeros((j_num+1, i_num))
+
+w_g_single = np.zeros((1, k_num))
 
 
 s_k = np.zeros(k_num)
 s_j = np.zeros(j_num)
 s_i = np.zeros(i_num)
 
-iter = 1000000
+iter = 500000
 
 # 入力dを作成
 d_list = create_input_data_all()
@@ -113,16 +122,8 @@ for i in range(iter):
     delta_w_g_ji = s_j_reshape @ (s_i_reshape - p_i_reshape)
     
     
-    tmp_w_g_ji = w_g_ji + lr * delta_w_g_ji
-    # rows, cols = tmp_w_g_ji.shape
+    w_g_ji = w_g_ji + lr * delta_w_g_ji
     
-    # for i in range(rows):
-    #     for j in range(cols):
-    #         if(tmp_w_g_ji[i][j] < 0):
-    #             tmp_w_g_ji[i][j] = w_g_ji[i][j]
-                
-    w_g_ji = np.where(tmp_w_g_ji < 0, w_g_ji, tmp_w_g_ji)
-
     ##### sleepフェーズ
 
     ## トップダウン
