@@ -12,12 +12,9 @@ def extract_digits(x, y, digits):
 
 # 数字の3と7を抽出
 # digits_to_extract = [3, 7]
-digits_to_extract = [5]
+digits_to_extract = [5,7]
 x_train_extracted, y_train_extracted = extract_digits(x_train, y_train, digits_to_extract)
 x_test_extracted, y_test_extracted = extract_digits(x_test, y_test, digits_to_extract)
-
-print(f"抽出された訓練データの形状: {x_train_extracted.shape}")
-print(f"抽出されたテストデータの形状: {x_test_extracted.shape}")
 
 # # 抽出されたデータの分布を確認
 # unique, counts = np.unique(y_train_extracted, return_counts=True)
