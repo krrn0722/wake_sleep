@@ -22,12 +22,12 @@ def output_weight(w_g_single, w_g_kj, w_g_ji):
     # print("g_ji",w_g_ji)
     
     # ファイルパス
-    _filepath_w_g_single = './' + formatted_now +  '_w_g_single.txt'
-    _filepath_w_g_kj = './' + formatted_now +  '_w_g_kj.txt'
-    _filepath_w_g_ji = './' + formatted_now +  '_w_g_ji.txt'
+    _filepath_w_g_single = './weights/' + formatted_now +  '_w_g_single.txt'
+    _filepath_w_g_kj = './weights/' + formatted_now +  '_w_g_kj.txt'
+    _filepath_w_g_ji = './weights/' + formatted_now +  '_w_g_ji.txt'
     
-    np.savetxt(_filepath_w_g_single, w_g_single, delimiter=',')
-    np.savetxt(_filepath_w_g_kj, w_g_kj, delimiter=',')
-    np.savetxt(_filepath_w_g_ji, w_g_ji, delimiter=',')
+    np.savetxt(_filepath_w_g_single, w_g_single)
+    np.savetxt(_filepath_w_g_kj, w_g_kj)
+    np.savetxt(_filepath_w_g_ji, w_g_ji)
     
     print("ファイル出力完了 : ", formatted_now)

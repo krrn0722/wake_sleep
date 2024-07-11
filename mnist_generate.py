@@ -7,9 +7,9 @@ def sigmoid(x):
 
 saved_time = "2021-09-01,15:00:00"
 
-_filepath_w_g_single = './' + saved_time +  '_w_g_single.txt'
-_filepath_w_g_kj = './' + saved_time +  '_w_g_kj.txt'
-_filepath_w_g_ji = './' + saved_time +  '_w_g_ji.txt'
+_filepath_w_g_single = './weights/' + saved_time +  '_w_g_single.txt'
+_filepath_w_g_kj = './weights/' + saved_time +  '_w_g_kj.txt'
+_filepath_w_g_ji = './weights/' + saved_time +  '_w_g_ji.txt'
 
 w_g_single = np.loadtxt(_filepath_w_g_single)
 w_g_kj = np.loadtxt(_filepath_w_g_kj)
