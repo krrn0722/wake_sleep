@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mnist_extract import x_train_normalized
+from input_time import saved_time
 
 def sigmoid(x):
     return np.exp(np.minimum(x, 0)) / (1 + np.exp(- np.abs(x)))
 
-saved_time = "2021-09-01,15:00:00"
 
 _filepath_w_g_single = './weights/' + saved_time +  '_w_g_single.txt'
 _filepath_w_g_kj = './weights/' + saved_time +  '_w_g_kj.txt'
