@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from mnist_extract import x_train_normalized
+from mnist_save import output_weight
 
 def sigmoid(x):
     return np.exp(np.minimum(x, 0)) / (1 + np.exp(- np.abs(x)))
@@ -13,30 +14,30 @@ def relu(x):
 # d_list = create_input_data_all()
 
 # 重みを初期化
-k_num = 2 #1
+k_num = 1 #1
 j_num = 28 #8
 i_num = 28*28 #16
 
 # 学習率 epsilon
-lr = 0.1
+lr = 0.01
 
-w_r_ij = np.random.rand(i_num+1, j_num)
-w_r_jk = np.random.rand(j_num+1, k_num)
-
-
-w_g_kj = np.random.rand(k_num+1, j_num)
-w_g_ji = np.random.rand(j_num+1, i_num)
-
-w_g_single = np.random.rand(1, k_num)
-
-# w_r_ij = np.zeros((i_num+1, j_num))
-# w_r_jk = np.zeros((j_num+1, k_num))
+# w_r_ij = np.random.rand(i_num+1, j_num)
+# w_r_jk = np.random.rand(j_num+1, k_num)
 
 
-# w_g_kj = np.zeros((k_num+1, j_num))
-# w_g_ji = np.zeros((j_num+1, i_num))
+# w_g_kj = np.random.rand(k_num+1, j_num)
+# w_g_ji = np.random.rand(j_num+1, i_num)
 
-# w_g_single = np.zeros((1, k_num))
+# w_g_single = np.random.rand(1, k_num)
+
+w_r_ij = np.zeros((i_num+1, j_num))
+w_r_jk = np.zeros((j_num+1, k_num))
+
+
+w_g_kj = np.zeros((k_num+1, j_num))
+w_g_ji = np.zeros((j_num+1, i_num))
+
+w_g_single = np.zeros((1, k_num))
 
 start_learning = time.perf_counter()
 
@@ -177,7 +178,7 @@ for i in range(iter):
     delta_w_r_jk = s_j_reshape @ (s_k_reshape - q_k_reshape)
     w_r_jk = w_r_jk + lr * delta_w_r_jk
     
-    if(i % 10000 == 0):
+    if(i % 20000 == 0):
         print(i,"回目")
 
 w_g_ji_reshape = w_g_ji.reshape(j_num+1, 28,28)
@@ -193,7 +194,9 @@ print('{:.2f}'.format((end_lerning - start_learning)/60))
 
 mnist_list = []
 
-for i in range(10): 
+output_weight(w_g_single, w_g_kj, w_g_ji)
+
+for i in range(20): 
     ## トップダウンで生成
     # generative single biasを使用
     p_k = sigmoid(w_g_single)
@@ -207,7 +210,7 @@ for i in range(10):
     p_j = sigmoid(p_j)
     # 確率に従ってサンプリング
     s_j = np.random.binomial(1, p_j)
-
+    
     # バイアスを追加s
     s_j_appended = np.append(s_j, 1)
     # 重みづけの和を計算
@@ -221,40 +224,11 @@ for i in range(10):
     scaled_values_interp = np.interp(p_i, (0, 1), (0, 255)).astype(int)
     mnist_list.append(scaled_values_interp.reshape(28,28))
 
-# ２値画像にしたよ
-# for i in range(5): 
-#     ## トップダウンで生成
-#     # generative single biasを使用
-#     p_k = sigmoid(w_g_single)
-#     # 確率に従ってサンプリング
-#     s_k = np.random.binomial(1, p_k)
-
-#     # バイアスを追加
-#     s_k_appended = np.append(s_k, 1)
-#     # 重みづけの和を計算
-#     p_j = s_k_appended @ w_g_kj
-#     p_j = sigmoid(p_j)
-#     # 確率に従ってサンプリング
-#     s_j = np.random.binomial(1, p_j)
-
-#     # バイアスを追加s
-#     s_j_appended = np.append(s_j, 1)
-#     # 重みづけの和を計算
-#     p_i = s_j_appended @ w_g_ji
-#     p_i = sigmoid(p_i)
-    
-#     # 確率に従ってサンプリング
-#     s_i = np.random.binomial(1, p_i)
-    
-#     #interp関数により、0-1の値を0-255に変換
-#     scaled_values_interp = np.interp(s_i, (0, 1), (0, 255)).astype(int)
-#     mnist_list.append(scaled_values_interp.reshape(28,28))
-
 
 # 抽出された画像をいくつか表示
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(20, 10))
 for i in range(len(mnist_list)):
-    plt.subplot(2, 5, i+1)
+    plt.subplot(4, 5, i+1)
     plt.imshow(mnist_list[i], cmap='gray')
     plt.axis('off')
 plt.tight_layout()
