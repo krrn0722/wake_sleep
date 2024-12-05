@@ -1,4 +1,32 @@
 import numpy as np
+import torch 
+
+def create_input_data_tensor():
+    d = torch.zeros((4, 4))
+    
+    #0なら横、1なら縦
+    ver_or_hor = np.random.randint(0,2)
+    if(ver_or_hor == 0):
+        #横
+        for i in range(4):
+            on_off = np.random.randint(0,2)
+            if(on_off == 1):
+                #i行目の要素を全て1にする
+                d[i] = 1
+    else:
+        #縦
+        for i in range(4):
+            on_off = np.random.randint(0,2)
+            if(on_off == 1):
+                #i行目の要素を全て1にする
+                d[:,i] = 1
+    
+    # 全ての要素が1の場合は再帰
+    if(torch.all(d == 1)):
+        d = create_input_data_tensor()
+    
+    d = d.reshape(16)
+    return d
 
 def create_input_data():
     d = np.zeros((4, 4))
