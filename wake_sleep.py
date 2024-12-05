@@ -1,6 +1,7 @@
 import numpy as np
 from create_data import create_input_data
 from create_data import create_input_data_all
+import matplotlib.pyplot as plt
 
 def sigmoid(x):
     return np.exp(np.minimum(x, 0)) / (1 + np.exp(- np.abs(x)))
@@ -111,7 +112,7 @@ for i in range(iter):
     delta_w_g_kj = s_k_reshape @ (s_j_reshape - p_j_reshape)
     w_g_kj = w_g_kj + lr * delta_w_g_kj
     
-
+    
     # 1,2層生成重みの更新
     # バイアスを追加
     s_j_appended = np.append(s_j, 1)
@@ -133,7 +134,7 @@ for i in range(iter):
 
     # バイアスを追加
     s_k_appended = np.append(s_k, 1)
-    # 重みづけの和を計算
+    # 重みづけの和を計
     s_j = s_k_appended @ w_g_kj
     s_j = sigmoid(s_j)
     # 確率に従ってサンプリング
@@ -178,7 +179,6 @@ for i in range(iter):
     w_r_jk = w_r_jk + lr * delta_w_r_jk
 
 w_g_ji_reshape = w_g_ji.reshape(j_num+1, 4,4)
-print("w_g_ji_reshape",w_g_ji_reshape)
 # print("g_single \n",w_g_single) 
 # print("g_kj \n",w_g_kj)
 
@@ -209,4 +209,13 @@ for i in range(3):
     # 確率に従ってサンプリング
     s_i = np.random.binomial(1, p_i)
 
-    print(s_i.reshape(4,4))
+    plt.imshow(s_i.reshape(4,4), cmap='gray')
+    plt.show()
+
+
+for i in range(8):
+    image = w_g_ji[i].reshape(4, 4)
+    # Visualize
+    plt.imshow(image, cmap='gray')
+    # plt.colorbar()
+    plt.show()
