@@ -7,7 +7,7 @@ from input_time import saved_time, s_k_num
 def sigmoid(x):
     return np.exp(np.minimum(x, 0)) / (1 + np.exp(- np.abs(x)))
 
-def generate(s_k_decide):
+def generate(s_k_decide ,i):
 
     _filepath_w_g_single = './weights/' + saved_time +  '_w_g_single.txt'
     _filepath_w_g_kj = './weights/' + saved_time +  '_w_g_kj.txt'
@@ -86,7 +86,9 @@ def generate(s_k_decide):
         plt.imshow(mnist_list[i], cmap='gray')
         plt.axis('off')
     plt.tight_layout()
-    plt.show()
+    
+    plt.savefig("./images/fig"+str(i)+".png")
+    plt.close() #←これ！
     
 
 
@@ -97,4 +99,4 @@ combinations = list(itertools.product([0, 1], repeat=s_k_num))
 s_k_list = [np.array([list(comb)]) for comb in combinations]
 
 for i in range(len(s_k_list)):
-    generate(s_k_list[i])
+    generate(s_k_list[i], i)
